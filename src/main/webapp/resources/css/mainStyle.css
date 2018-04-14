@@ -1,0 +1,124 @@
+TABLE {
+    width: 100%;
+}
+
+.menu {
+    float: left;
+    width: 320px;
+    padding: 5px;
+    text-align: left;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 1.2) 0px 1px 3px;
+}
+
+.table1 {
+    width: 72%;
+    float: right;
+}
+
+.table2 {
+    border-radius: 15px;
+    width: 65%;
+
+    float: left;
+}
+.table3 {
+    width: 72%; /* Ширина таблицы */
+}
+
+.buttonMenu {
+    width: 310px;
+}
+
+.range-filter {
+    padding-top: 10px;
+    width: 240px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.range-controls {
+    position: relative;
+    height: 80px;
+    margin-bottom: 15px;
+    padding: 0 30px;
+    background: #34495e;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.scale {
+    margin-top: 39px;
+    height: 2px;
+    background: #d7dcde;
+}
+
+.bar {
+    height: 2px;
+    background: #00ca74;
+}
+
+.toggle {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 4px;
+    height: 4px;
+    border: 8px solid white;
+    background: #ababab;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.min-toggle {
+    left: 70px;
+}
+
+.max-toggle {
+    left: 165px;
+}
+
+.price-controls input {
+    width: 55px;
+    padding: 8px 10px;
+    margin-left: 10px;
+    border: none;
+    background: #34495e;
+    font-size: 16px;
+    font-family: "Tahoma", sans-serif;
+    text-align: center;
+    color: #283136;
+    border-radius: 5px;
+    color: white;
+}
+
+.min-price {
+    margin-right: 14px;
+}
+
+.block1 {
+    width: 50%;
+    height: 25%;
+    background: #ccc;
+    border: solid 1px black;
+    float: left;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.block2 {
+    width: 72%;
+    height: 16%;
+    background: #a6e1ec;
+    border: solid 1px black;
+    float: right;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+body {
+    padding: 10px;
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+}
