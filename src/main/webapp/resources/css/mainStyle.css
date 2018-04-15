@@ -116,6 +116,14 @@ TABLE {
     scroll-behavior: smooth;
 }
 
+.block3 {
+    width: 72%;
+    height: 16%;
+    float: right;
+    align-content: center;
+    scroll-behavior: smooth;
+}
+
 body {
     padding: 10px;
     font-family: "Arial", sans-serif;

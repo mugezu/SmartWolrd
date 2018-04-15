@@ -2,21 +2,22 @@ package com.hellokoding.auth.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Роман on 14.02.2018.
  */
 @Entity
-@Table(name = "list_order")
-public class ListOrder {
+@Table(name = "orders")
+public class Orders {
     private Long id;
-    private Long idOrder;
     private User idBayer;
-    private Catalog idItem;
-    private Integer amount;
     private Integer price;
     private Date date;
     private Status status;
+    private Set<SubOrders> subOrders = new HashSet<>();
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,13 +29,6 @@ public class ListOrder {
         this.id = id;
     }
 
-    public Long getIdOrder() {
-        return idOrder;
-    }
-
-    public void setIdOrder(Long idOrder) {
-        this.idOrder = idOrder;
-    }
 
 
     @ManyToOne
@@ -47,23 +41,8 @@ public class ListOrder {
         this.idBayer = idBayer;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_item")
-    public Catalog getIdItem() {
-        return idItem;
-    }
 
-    public void setIdItem(Catalog idItem) {
-        this.idItem = idItem;
-    }
 
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
 
     public Integer getPrice() {
         return price;
@@ -90,5 +69,14 @@ public class ListOrder {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @OneToMany(mappedBy = "orders")
+    public Set<SubOrders> getSubOrders() {
+        return subOrders;
+    }
+
+    public void setSubOrders(Set<SubOrders> subOrders) {
+        this.subOrders = subOrders;
     }
 }

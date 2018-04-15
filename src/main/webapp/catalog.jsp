@@ -11,7 +11,6 @@
 <html>
 <head>
     <title>Каталог товаров</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/jquery-ui.css">
     <script src="${contextPath}/resources/js/jquery-1.12.4.js"></script>
     <script src="${contextPath}/resources/js/jquery-ui.js"></script>
 
@@ -32,17 +31,22 @@
                     <img src="resources/picture/smartfone/${catalog.URL}" width="235" height="300">
                 </th>
                 <th>
-                    <b2>Продукт</b2>
+
+                    <b2>${catalog.company} ${catalog.model}</b2>
                     <br/>
-                    <b2>Наименование: ${catalog.company} ${catalog.model} Цена: ${catalog.price}</b2>
+                    <b2><h2>${catalog.price} грн</h2></b2>
                     <br/>
                     <b2><a class="btn btn-default btn-danger" href="${contextPath}/item?id=${catalog.id}">Подробнее</a>
+                        <a class="btn btn-default btn-danger" href="${contextPath}/buyItem?id=${catalog.id}"> Добавить в
+                            корзину</a>
+
                     </b2>
                     <br/>
                     <c:if test="${sessionScope.get('user').role.name=='admin'}">
                         <a class="btn btn-default btn-danger" href="${contextPath}/addItem?id=${catalog.id}"> Изменить
                             товар</a>
-                        <form action="${contextPath}/deleteItemDB" method="post">
+
+                        <form action="${contextPath}/admin/deleteItemDB" method="post">
                             <input type="hidden" name="id" value="${catalog.id}">
                             <button type="submit" class="btn btn-default btn-danger">Удалить товар</button>
                         </form>

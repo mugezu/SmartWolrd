@@ -7,6 +7,8 @@ import com.hellokoding.auth.repository.BasketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Роман on 08.04.2018.
  */
@@ -43,4 +45,13 @@ public class BasketService {
         }
     }
 
+    public void deleteAllBasket(List<Basket> basketList) {
+        for (Basket basket : basketList) {
+            basketRepository.delete(basket);
+        }
+    }
+
+    public List<Basket> findByIdBayer(User user) {
+        return basketRepository.findByIdBayer(user);
+    }
 }

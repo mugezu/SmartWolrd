@@ -12,7 +12,7 @@ import java.util.Set;
 public class Status {
     private Long id;
     private String status;
-    private Set<ListOrder> orders = new HashSet<>();
+    private Set<Orders> orders = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,11 +33,11 @@ public class Status {
     }
 
     @OneToMany(mappedBy = "status")
-    public Set<ListOrder> getOrders() {
+    public Set<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<ListOrder> orders) {
+    public void setOrders(Set<Orders> orders) {
         this.orders = orders;
     }
 }

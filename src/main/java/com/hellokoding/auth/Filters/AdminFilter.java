@@ -11,12 +11,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter({"/adminPage", "/addItem"})
+@WebFilter({"/admin/*"})
 public class AdminFilter implements Filter {
     @Autowired
     private UserServiceImpl userService;
-    @Autowired
-    private HttpSession httpSession;
+
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)

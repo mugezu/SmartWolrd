@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<form:form method="post" enctype="multipart/form-data" modelAttribute="catalog" action="${contextPath}/addItem">
+<form:form method="post" enctype="multipart/form-data" modelAttribute="catalog" action="${contextPath}/admin/addItem">
     <table class="table1">
         <tr>
             <td>

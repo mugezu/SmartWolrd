@@ -59,6 +59,8 @@ public class CatalogService {
             for (int i = (p - 1) * amount; i < p * amount; i++) {
                 finalListCatalog.add(catalogList.get(i));
             }
+        } catch (Exception e) {
+
         } finally {
             return finalListCatalog;
         }

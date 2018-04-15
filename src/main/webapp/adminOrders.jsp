@@ -15,23 +15,19 @@
 </head>
 <body>
 
-<c:set var="preIdOrder" value="${orders[0].idOrder-1}"> </c:set>
 <c:forEach var="order" items="${orders}">
-<c:set var="curOrder" value="${order.idOrder}"></c:set>
-<c:if test="${curOrder!=preIdOrder}">
-</div>
 <div class="block2">
     <table>
         <tr>
             <td>
-                <h4 align="center"> Заказ №${order.idOrder} Сумма ${order.price}
+                <h4 align="center"> Заказ №${order.id} Сумма ${order.price}
                     Статус ${order.status.status}  </h4>
                 <h6 align="center">От ${order.idBayer.username}(${order.idBayer.id}) ${order.date}</h6>
             </td>
             <td>
-                <form style="float: right" action="${contextPath}/updateStatusOrder">
+                <form style="float: right" action="${contextPath}/admin/updateStatusOrder">
                     <p></p>
-                    <input type="hidden" name="id" value="${order.idOrder}">
+                    <input type="hidden" name="id" value="${order.id}">
                    <select size="1" name="status">
                         <option disabled>Изменить статус</option>
                         <c:forEach var="status" items="${listStatus}">
@@ -42,21 +38,28 @@
                 </form>
             </td>
         </tr>
+        <tr>
+            <th>
+                <c:forEach var="subOrder" items="${order.subOrders}">
+
+                    <h4>${subOrder.idItem.company} ${subOrder.idItem.model}(${subOrder.idItem.price})
+                        в количестве ${subOrder.amount}</h4>
+                </c:forEach>
+            </th>
+        </tr>
     </table>
-    </c:if>
-
-    <h4>${order.idItem.company} ${order.idItem.model}(${order.idItem.price})
-        в количестве ${order.amount}</h4>
-
-        <c:set var="preIdOrder" value="${order.idOrder}"></c:set>
+</div>
     </c:forEach>
-<div>
+
+<div class="block3">
+    <div align="center">
     <c:if test="${page>1}">
-        <a class="ui-button" href="${contextPath}/adminOrders?page=${page-1}">Предыдущая </a>
+        <a class="ui-button" href="${contextPath}/admin/adminOrders?page=${page-1}">Предыдущая </a>
     </c:if>
     <c:if test="${(amountAllItem/itemPage)>page}">
-        <a class="ui-button" href="${contextPath}/adminOrders?page=${page+1}"> Следущая</a>
+        <a class="ui-button" href="${contextPath}/admin/adminOrders?page=${page+1}"> Следущая</a>
     </c:if>
+    </div>
 </div>
 </body>
 </html>

@@ -12,10 +12,10 @@
 </head>
 <body>
 <div class="menu">
-    <a href="${contextPath}/adminOrders" class="btn btn-lg btn-info buttonMenu"> Посмотреть список заказов</a>
+    <a href="${contextPath}/admin/adminOrders" class="btn btn-lg btn-info buttonMenu"> Посмотреть список заказов</a>
     <a href="" class="btn btn-lg btn-info buttonMenu"> Посмотреть список пользователей</a>
     <a href="${contextPath}/catalog" class="btn btn-lg btn-info buttonMenu"> Посмотреть список товаров</a>
-    <a href="${contextPath}/addItem" class="btn btn-lg btn-info buttonMenu"> Добавить товар</a>
+    <a href="${contextPath}/admin/addItem" class="btn btn-lg btn-info buttonMenu"> Добавить товар</a>
 </div>
 </body>
 </html>

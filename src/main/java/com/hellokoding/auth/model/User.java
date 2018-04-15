@@ -1,6 +1,5 @@
 package com.hellokoding.auth.model;
 
-import com.hellokoding.auth.Other.Filters;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -21,7 +20,7 @@ public class User {
     private String numberCard;
     private Role role;
     private Set<Basket> baskets = new HashSet<Basket>();
-    private Set<ListOrder> listOrders = new HashSet<>();
+    private Set<Orders> orders = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -78,12 +77,12 @@ public class User {
     }
 
     @OneToMany(mappedBy = "idBayer")
-    public Set<ListOrder> getListOrders() {
-        return listOrders;
+    public Set<Orders> getOrders() {
+        return orders;
     }
 
-    public void setListOrders(Set<ListOrder> listOrders) {
-        this.listOrders = listOrders;
+    public void setOrders(Set<Orders> orders) {
+        this.orders = orders;
     }
 
     @Email

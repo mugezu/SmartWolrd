@@ -1,6 +1,5 @@
 package com.hellokoding.auth.model;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -32,7 +31,7 @@ public class Catalog {
     private String screenResolution;
     private MultipartFile picture;
     private Set<Basket> Baskets = new HashSet<>();
-    private Set<ListOrder> ListOrders = new HashSet<>();
+    private Set<SubOrders> orders = new HashSet<>();
 
 
     @Id
@@ -167,12 +166,12 @@ public class Catalog {
     }
 
     @OneToMany(mappedBy = "idItem")
-    public Set<ListOrder> getListOrders() {
-        return ListOrders;
+    public Set<SubOrders> getOrders() {
+        return orders;
     }
 
-    public void setListOrders(Set<ListOrder> listOrders) {
-        ListOrders = listOrders;
+    public void setOrders(Set<SubOrders> orders) {
+        this.orders = orders;
     }
 
     public String getOS() {

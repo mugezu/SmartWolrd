@@ -19,6 +19,8 @@
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/mainStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="${contextPath}/resources/css/jquery-ui.css">
+
 
 </head>
 <body>
@@ -31,7 +33,7 @@
         </th>
         <th>
             <a href="${contextPath}/main44">
-                <img src="resources/picture/kpssnhuwk7zzr5dr.png" width="720" height="121">
+                <img src="${contextPath}/resources/picture/kpssnhuwk7zzr5dr.png" width="720" height="121">
             </a>
         </th>
         <th>
@@ -51,7 +53,7 @@
                     </a>
 
                     <c:if test="${sessionScope.get('user').role.name=='admin' || sessionScope.get('user').role.name=='manager'}">
-                    <a href="${contextPath}/adminPage" style="float: right" class="btn btn-lg btn-primary btn-block">
+                    <a href="${contextPath}/admin/adminPage" style="float: right" class="btn btn-lg btn-primary btn-block">
                         Админка
                     </a>
                     </c:if>
@@ -66,9 +68,6 @@
                 </c:otherwise>
             </c:choose>
 
-            <sec:authorize access="hasRole('admin')">
-                <a href="${contextPath}/adminPage">Страничка админа</a>
-            </sec:authorize>
         </th>
     </tr>
 </table>

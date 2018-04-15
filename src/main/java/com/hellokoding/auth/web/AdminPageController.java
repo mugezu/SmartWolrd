@@ -1,7 +1,7 @@
 package com.hellokoding.auth.web;
 
 import com.hellokoding.auth.model.Catalog;
-import com.hellokoding.auth.model.ListOrder;
+import com.hellokoding.auth.model.Orders;
 import com.hellokoding.auth.repository.StatusRepository;
 import com.hellokoding.auth.service.CatalogService;
 import com.hellokoding.auth.service.OrdersService;
@@ -32,8 +32,6 @@ public class AdminPageController {
     StatusRepository statusRepository;
     @Autowired
     HttpServletRequest request;
-    @Autowired
-    CatalogController catalogController;
 
 
     final String ADD_ITEM = "addItem";
@@ -45,23 +43,23 @@ public class AdminPageController {
     private final String AMOUNT_ALL_ITEM = "amountAllItem";
     private final String CURRENT_PAGE = "page";
     private final Integer AMOUNT_ITEM_PAGE = 5;
+    private final String ITEM_PAGE = "itemPage";
 
 
-    @RequestMapping(value = "/adminPage", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/adminPage", method = RequestMethod.GET)
     public String adminPage(Model model) {
         return ADMIN_PAGE;
     }
 
 
-    @RequestMapping(value = "/updateStatusOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/updateStatusOrder", method = RequestMethod.GET)
     public String updateStatusOrder(Model model, @RequestParam(value = "id") Long id, @RequestParam(value = "status") Long status) throws AuthenticationException {
         ordersService.updateStatusOrder(id, status);
-        System.out.println("sfjlkfskljsfjkls");
         return "redirect:" + request.getHeader("referer");
     }
 
 
-    @RequestMapping(value = "/addItem", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/addItem", method = RequestMethod.GET)
     public String showCatalog(Model model, @ModelAttribute("catalog") Catalog catalog, @RequestParam(value = "id", required = false) Long id) {
         if (id != null) {
             Catalog item = catalogService.findItem(id);
@@ -70,33 +68,34 @@ public class AdminPageController {
         return ADD_ITEM;
     }
 
-    @RequestMapping(value = "/addItem", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/addItem", method = RequestMethod.POST)
     public String addItem(@ModelAttribute("catalog") Catalog catalog, Model model) throws IOException {
         catalogService.addItem(catalog);
-        model.addAttribute("message", "Товар добавлен");
+        model.addAttribute("message", "Товар добавлен/изменен");
 
         return adminPage(model);
         //return "redirect:" + request.getHeader("referer");
     }
 
-    @RequestMapping(value = "/deleteItemDB", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/deleteItemDB", method = RequestMethod.POST)
     public String deleteItemDB(@RequestParam(value = "id", required = false) Long id, Model model) throws IOException {
         catalogService.deleteItem(id);
         model.addAttribute("message", "Товар удален");
-
         return adminPage(model);
     }
 
 
-    @RequestMapping(value = "/adminOrders", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/adminOrders", method = RequestMethod.GET)
     public String adminOrders(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
-        List<ListOrder> listOrders = ordersService.allOrdersWithSort();
+        List<Orders> listOrders = ordersService.allOrdersWithSort();
+
 
         model.addAttribute(LIST_STATUS, statusRepository.findAll());
-        model.addAttribute(ORDERS, listOrders);
-        System.out.println( "/*//**/*/*/*/*/*/*/*/* "+listOrders.subList(1,10).size());
+        model.addAttribute(ORDERS, ordersService.ordersFromPage(page, listOrders, AMOUNT_ITEM_PAGE));
         model.addAttribute(AMOUNT_ALL_ITEM, listOrders.size());
         model.addAttribute(CURRENT_PAGE, page);
+        model.addAttribute(ITEM_PAGE, AMOUNT_ITEM_PAGE);
+
         return ADMIN_ORDERS;
     }
 

@@ -1,14 +1,16 @@
 package com.hellokoding.auth.service;
 
-import com.hellokoding.auth.model.ListOrder;
+import com.hellokoding.auth.model.Basket;
+import com.hellokoding.auth.model.Orders;
+import com.hellokoding.auth.model.SubOrders;
 import com.hellokoding.auth.model.User;
-import com.hellokoding.auth.repository.ListOrderRepository;
+import com.hellokoding.auth.repository.OrdersRepository;
 import com.hellokoding.auth.repository.StatusRepository;
+import com.hellokoding.auth.repository.SubOrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Роман on 08.04.2018.
@@ -16,31 +18,64 @@ import java.util.List;
 @Service
 public class OrdersService {
     @Autowired
-    ListOrderRepository orderRepository;
+    OrdersRepository orderRepository;
 
     @Autowired
     StatusRepository statusRepository;
 
-    public void updateStatusOrder(Long idOrder, Long idStatus) {
-        List<ListOrder> listOrders = orderRepository.findByIdOrder(idOrder);
+    @Autowired
+    private SubOrdersRepository subOrdersRepository;
 
-        for (ListOrder order : listOrders) {
-            order.setStatus(statusRepository.findOne(idStatus));
-            orderRepository.saveAndFlush(order);
-        }
+    public void updateStatusOrder(Long idOrder, Long idStatus) {
+        Orders order = orderRepository.findOne(idOrder);
+        order.setStatus(statusRepository.findOne(idStatus));
+        orderRepository.saveAndFlush(order);
+
     }
 
-    public List<ListOrder> allOrdersWithSort() {
+    public List<Orders> allOrdersWithSort() {
         return orderRepository.findAllSort();
     }
 
-    public List<ListOrder> allOrdersByIdWithSort(User user) {
+    public List<Orders> allOrdersByIdWithSort(User user) {
         return orderRepository.findAllByIdSort(user);
     }
 
-    public List<ListOrder> ordersFromPage(Integer page, List<ListOrder> listOrders) {
-        List<ListOrder> result = new ArrayList<>();
-        return result;
+    public List<Orders> ordersFromPage(Integer page, List<Orders> listOrders, Integer amount) {
+        List<Orders> result = new ArrayList<>();
+        try {
+            for (int i = (page - 1) * amount; i < page * amount; i++) {
+                result.add(listOrders.get(i));
+            }
+        } finally {
+            return result;
+        }
     }
 
+    public void saveOrder(User user, Integer money) {
+        Orders order = new Orders();
+        order.setIdBayer(user);
+        order.setPrice(money);
+        order.setDate(new Date());
+        order.setStatus(statusRepository.findOne(1l));
+        orderRepository.save(order);
+    }
+
+    public void saveSubOrders(List<Basket> basketList, Orders orders) {
+        Set<SubOrders> subOrdersSet = new HashSet<>();
+
+        for (Basket basket : basketList) {
+            SubOrders subOrders = new SubOrders();
+            subOrders.setIdItem(basket.getIdItem());
+            subOrders.setAmount(basket.getAmount());
+            subOrders.setPrice(basket.getPrice());
+            subOrders.setOrders(orders);
+            subOrdersSet.add(subOrders);
+        }
+        subOrdersRepository.save(subOrdersSet);
+    }
+
+    public Orders findOrderMaxId() {
+        return orderRepository.findOne(orderRepository.findByIdMax());
+    }
 }
