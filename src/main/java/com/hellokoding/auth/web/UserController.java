@@ -80,7 +80,9 @@ public class UserController {
             model.addAttribute("message", "Вы успешно вышли из системы");
         }
         if (error == null && logout == null) {
-            httpSession.setAttribute("user", userService.getCurrentUser());
+            User user = userService.getCurrentUser();
+            if (user != null)
+                httpSession.setAttribute("user", user);
         }
 
         return "login";

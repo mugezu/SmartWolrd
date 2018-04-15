@@ -51,10 +51,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User u = userRepository.findByUsername(username);
-        if (u == null) {
-            throw new AuthenticationException("Сначала надо авторизоваться на сайте");
-        } else {
             return u;
-        }
+
     }
 }
