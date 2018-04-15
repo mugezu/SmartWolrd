@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -80,9 +81,14 @@ public class UserController {
             model.addAttribute("message", "Вы успешно вышли из системы");
         }
         if (error == null && logout == null) {
-            User user = userService.getCurrentUser();
-            if (user != null)
+            User user = null;
+            try {
+                user = userService.getCurrentUser();
                 httpSession.setAttribute("user", user);
+            } catch (AuthenticationException e) {
+
+            }
+
         }
 
         return "login";
