@@ -78,4 +78,12 @@ public class OrdersService {
     public Orders findOrderMaxId() {
         return orderRepository.findOne(orderRepository.findByIdMax());
     }
+
+    public Orders findById(Long idOrder) {
+        return orderRepository.findOne(idOrder);
+    }
+
+    public List<Orders> findByStatusId(Long idStatus) {
+        return orderRepository.findByStatus(statusRepository.findOne(idStatus));
+    }
 }

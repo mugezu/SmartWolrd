@@ -124,6 +124,21 @@ TABLE {
     scroll-behavior: smooth;
 }
 
+.block4 {
+    width: 35%;
+    height: 10%;
+    float: right;
+    align-content: center;
+    scroll-behavior: smooth;
+}
+.block5 {
+    width: 35%;
+    height: 10%;
+    float: left;
+    align-content: center;
+    scroll-behavior: smooth;
+}
+
 body {
     padding: 10px;
     font-family: "Arial", sans-serif;

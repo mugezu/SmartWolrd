@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -44,6 +45,7 @@ public class AdminPageController {
     private final String CURRENT_PAGE = "page";
     private final Integer AMOUNT_ITEM_PAGE = 5;
     private final String ITEM_PAGE = "itemPage";
+    private final String ID_STATUS = "idStatus";
 
 
     @RequestMapping(value = "/admin/adminPage", method = RequestMethod.GET)
@@ -86,17 +88,37 @@ public class AdminPageController {
 
 
     @RequestMapping(value = "/admin/adminOrders", method = RequestMethod.GET)
-    public String adminOrders(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
-        List<Orders> listOrders = ordersService.allOrdersWithSort();
-
-
-        model.addAttribute(LIST_STATUS, statusRepository.findAll());
+    public String adminOrders(Model model, @RequestParam(value = "idStatus", required = false) Long idStatus, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "idOrder", required = false) Long idOrder) {
+        List<Orders> listOrders = new LinkedList<>();
+        ;
+        if (idOrder == null) {
+            if (idStatus == null)
+                listOrders = ordersService.allOrdersWithSort();
+            else {
+                listOrders = ordersService.findByStatusId(idStatus);
+                model.addAttribute(ID_STATUS,idStatus);
+            }
+        } else {
+            listOrders.add(ordersService.findById(idOrder));
+        }
         model.addAttribute(ORDERS, ordersService.ordersFromPage(page, listOrders, AMOUNT_ITEM_PAGE));
         model.addAttribute(AMOUNT_ALL_ITEM, listOrders.size());
+        model.addAttribute(LIST_STATUS, statusRepository.findAll());
         model.addAttribute(CURRENT_PAGE, page);
         model.addAttribute(ITEM_PAGE, AMOUNT_ITEM_PAGE);
-
         return ADMIN_ORDERS;
+    }
+
+    @RequestMapping(value = "/admin/orderFind", method = RequestMethod.GET)
+    public String ordersFind(Model model, @RequestParam(value = "idOrder") Long idOrder) {
+        List<Orders> listOrders = ordersService.allOrdersWithSort();
+
+        model.addAttribute(LIST_STATUS, statusRepository.findAll());
+        model.addAttribute(ORDERS, ordersService.findById(idOrder));
+        model.addAttribute(AMOUNT_ALL_ITEM, listOrders.size());
+        model.addAttribute(ITEM_PAGE, AMOUNT_ITEM_PAGE);
+        model.addAttribute(CURRENT_PAGE, 1);
+        return "redirect:" + ADMIN_ORDERS;
     }
 
 
