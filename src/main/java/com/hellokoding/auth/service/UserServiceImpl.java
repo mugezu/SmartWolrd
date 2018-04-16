@@ -30,6 +30,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void saveAndFlush(Long id, String username, String password, String passwordConfirm, String email, String number, String address, String number1, String numberCard, Long idRole) {
+        User user = userRepository.getOne(id);
+        if (username != null) {
+            user.setUsername(username);
+        }
+        if (password != null) {
+            user.setUsername(username);
+        }
+        if (username != null) {
+            user.setUsername(username);
+        }
+        if (username != null) {
+            user.setUsername(username);
+        }
+        if (username != null) {
+            user.setUsername(username);
+        }
+    }
+
+    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -56,5 +76,10 @@ public class UserServiceImpl implements UserService {
         } else {
             return u;
         }
+    }
+
+    @Override
+    public User findById(Long idUser) {
+        return userRepository.findOne(idUser);
     }
 }

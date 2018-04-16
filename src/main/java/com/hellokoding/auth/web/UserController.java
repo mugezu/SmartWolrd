@@ -38,12 +38,15 @@ public class UserController {
     @Autowired
     private OrdersService ordersService;
 
-    private final String USER_PAGE = "userPage";
-    private final String USER_ORDERS = "userOrders";
-    private final String AMOUNT_ALL_ITEM = "amountAllItem";
-    private final String CURRENT_PAGE = "page";
-    private final Integer AMOUNT_ITEM_PAGE = 5;
-    private final String ITEM_PAGE = "itemPage";
+
+    private static final String USER_PAGE = "userPage";
+    private static final String USER_ORDERS = "userOrders";
+    private static final String AMOUNT_ALL_ITEM = "amountAllItem";
+    private static final String CURRENT_PAGE = "page";
+    private static final Integer AMOUNT_ITEM_PAGE = 5;
+    private static final String ITEM_PAGE = "itemPage";
+    private static final String USER_INFO = "userInfo";
+    private static final String USER = "user";
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -72,6 +75,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) throws Exception {
+
 
         if (error != null)
             model.addAttribute("error", "Неверное имя пользователя или пароль");
@@ -115,5 +119,25 @@ public class UserController {
         return USER_ORDERS;
     }
 
+    @RequestMapping(value = {"/userInfo", "/admin/userInfo"}, method = RequestMethod.GET)
+    public String userInfo(Model model, @RequestParam(value = "idUser") Long idUser, @ModelAttribute("userForm") User userForm) throws Exception {
+        User user = userService.getCurrentUser();
+        if (user.getId() == idUser || user.getRole().getName() == "admin") {
+            model.addAttribute(USER, userService.findById(idUser));
+        }
 
+        return USER_INFO;
+    }
+
+    @RequestMapping(value = {"/userInfo", "/admin/userInfo"}, method = RequestMethod.POST)
+    public String userInfo(Model model, @ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws Exception {
+        userValidator.validateChange(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return USER_INFO;
+        }
+
+
+        return USER_INFO;
+    }
 }

@@ -3,6 +3,7 @@ package com.hellokoding.auth.Filters;
 
 import com.hellokoding.auth.model.User;
 import com.hellokoding.auth.service.UserServiceImpl;
+import org.apache.catalina.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.security.sasl.AuthenticationException;

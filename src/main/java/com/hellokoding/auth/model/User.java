@@ -32,6 +32,7 @@ public class User {
         this.id = id;
     }
 
+    @Column(unique = true)
     public String getUsername() {
         return username;
     }
