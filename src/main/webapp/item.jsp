@@ -35,14 +35,13 @@
             <a class="btn btn-default btn-danger" href="${contextPath}/buyItem?id=${item.id}"> Добавить в корзину</a>
             <br>
             <span> ${message}</span>
-            <c:if test="${sessionScope.get('user').role.name=='admin'}">
+            <sec:authorize access="hasRole('admin')">
                 <a class="btn btn-default btn-danger" href="${contextPath}/addItem?id=${item.id}"> Изменить товар</a>
                 <form action="${contextPath}/deleteItemDB" method="post">
                     <input type="hidden" name="id" value="${item.id}">
                     <button type="submit" class="btn btn-default btn-danger">Удалить товар</button>
                 </form>
-
-            </c:if>
+            </sec:authorize>
         </th>
     </tr>
 </table>

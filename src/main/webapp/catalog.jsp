@@ -42,7 +42,7 @@
 
                     </b2>
                     <br/>
-                    <c:if test="${sessionScope.get('user').role.name=='admin'}">
+                    <sec:authorize access="hasRole('admin')">
                         <a class="btn btn-default btn-danger" href="${contextPath}/addItem?id=${catalog.id}"> Изменить
                             товар</a>
 
@@ -50,7 +50,7 @@
                             <input type="hidden" name="id" value="${catalog.id}">
                             <button type="submit" class="btn btn-default btn-danger">Удалить товар</button>
                         </form>
-                    </c:if>
+                    </sec:authorize>
                 </th>
             </tr>
         </c:forEach>
@@ -81,6 +81,7 @@
     </c:if>
     <form:form method="get" modelAttribute="filters" action="${contextPath}/filters">
         <h2>Фильтры </h2>
+
         <span>${message}</span>
 
         <script>

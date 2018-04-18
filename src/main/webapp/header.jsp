@@ -10,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="error.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
@@ -52,11 +52,14 @@
                         Ваша корзина
                     </a>
 
-                    <c:if test="${sessionScope.get('user').role.name=='admin' || sessionScope.get('user').role.name=='manager'}">
-                    <a href="${contextPath}/admin/adminPage" style="float: right" class="btn btn-lg btn-primary btn-block">
-                        Админка
-                    </a>
-                    </c:if>
+                    <sec:authorize access="hasRole('admin') or hasRole('manager')">
+                        <a href="${contextPath}/admin/adminPage" style="float: right"
+                           class="btn btn-lg btn-primary btn-block">
+                            Админка
+                        </a>
+                    </sec:authorize>
+
+
                 </c:when>
                 <c:otherwise>
                     <form method="GET" style="float: right" action="${contextPath}/login" class="form-signin">
@@ -67,7 +70,6 @@
                     </form>
                 </c:otherwise>
             </c:choose>
-
         </th>
     </tr>
 </table>

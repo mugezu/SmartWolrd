@@ -124,12 +124,14 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/userInfo", "/admin/userInfo"}, method = RequestMethod.GET)
-    public String userInfo(Model model, @RequestParam(value = "idUser") Long idUser, @ModelAttribute("userForm") User userForm) throws Exception {
-        User user = userService.getCurrentUser();
-        if (user.getId() == idUser || user.getRole().getName() == "admin") {
-            model.addAttribute(USER, userService.findById(idUser));
+    public String userInfo(Model model, @RequestParam(value = "idUser", required = false) Long idUser, @ModelAttribute("userForm") User userForm) throws Exception {
+        User user;
+        if (idUser == null) {
+            user = userService.getCurrentUser();
+        } else {
+            user = userService.findById(idUser);
         }
-        System.out.println(httpSession.getAttribute("user"));
+        model.addAttribute(USER, user);
         model.addAttribute(ALL_ROLE, roleRepository.findAll());
         return USER_INFO;
     }

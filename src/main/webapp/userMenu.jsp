@@ -13,7 +13,7 @@
 <body>
 <div class="menu">
     <a href="${contextPath}/userOrders" class="btn btn-lg btn-info buttonMenu"> Посмотреть список ваших заказов</a>
-    <a href="${contextPath}/userInfo?idUser=${sessionScope.get('user').id}" class="btn btn-lg btn-info buttonMenu">
+    <a href="${contextPath}/userInfo" class="btn btn-lg btn-info buttonMenu">
         Изменить данные о себе</a>
     <a href="${contextPath}/catalog" class="btn btn-lg btn-info buttonMenu"> Каталог</a>
     <a href="${contextPath}/basket" class="btn btn-lg btn-info buttonMenu"> Корзина</a>
