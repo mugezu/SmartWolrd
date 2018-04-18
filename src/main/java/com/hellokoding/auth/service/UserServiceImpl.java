@@ -29,24 +29,33 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
-    public void saveAndFlush(Long id, String username, String password, String passwordConfirm, String email, String number, String address, String number1, String numberCard, Long idRole) {
-        User user = userRepository.getOne(id);
-        if (username != null) {
-            user.setUsername(username);
+    public void updateUser(User user) {
+        User oldUser = findById(user.getId());
+        if (user.getUsername() == "") {
+            user.setUsername(oldUser.getUsername());
         }
-        if (password != null) {
-            user.setUsername(username);
+        if (user.getAddress() == "") {
+            user.setAddress(oldUser.getAddress());
         }
-        if (username != null) {
-            user.setUsername(username);
+        if (user.getEmail() == "") {
+            user.setEmail(oldUser.getEmail());
         }
-        if (username != null) {
-            user.setUsername(username);
+        if (user.getNumber() == "") {
+            user.setNumber(oldUser.getNumber());
         }
-        if (username != null) {
-            user.setUsername(username);
+        if (user.getNumberCard() == "") {
+            user.setNumberCard(oldUser.getNumberCard());
         }
+        if (user.getRole() == null) {
+            user.setRole(oldUser.getRole());
+        }
+        if (user.getPassword() == "") {
+            user.setPassword(oldUser.getPassword());
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
+        userRepository.saveAndFlush(user);
+
     }
 
     @Override

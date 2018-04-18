@@ -44,15 +44,17 @@ public class UserValidator implements Validator {
     }
 
 
-    public void validateChange(Object o, Errors errors) {
+    public int validateChange(Object o, Errors errors) {
         User user = (User) o;
         User oldUser = userService.findById(user.getId());
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
-            errors.rejectValue("username", "Size.userForm.username");
-        }
-        if (userService.findByUsername(user.getUsername()) != null) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
+        if (user.getUsername() != "") {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
+            if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
+                errors.rejectValue("username", "Size.userForm.username");
+            }
+            if (userService.findByUsername(user.getUsername()) != null) {
+                errors.rejectValue("username", "Duplicate.userForm.username");
+            }
         }
         if (user.getPasswordConfirm() != "" || user.getPassword() != "") {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
@@ -63,5 +65,18 @@ public class UserValidator implements Validator {
                 errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
             }
         }
+        if (user.getAddress() != "") {
+
+        }
+        if (user.getEmail() != "") {
+
+        }
+        if (user.getNumber() != "") {
+
+        }
+        if (user.getNumberCard() != "") {
+
+        }
+        return errors.getErrorCount();
     }
 }

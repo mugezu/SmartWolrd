@@ -8,6 +8,5 @@ public interface UserService {
     User findByUsername(String username);
 
     User findById(Long idUser);
-
-    void saveAndFlush(Long id, String username, String password, String passwordConfirm, String email, String number, String address, String number1, String numberCard, Long idRole);
+    void updateUser(User user);
 }

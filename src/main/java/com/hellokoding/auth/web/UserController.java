@@ -2,6 +2,7 @@ package com.hellokoding.auth.web;
 
 import com.hellokoding.auth.model.Orders;
 import com.hellokoding.auth.model.User;
+import com.hellokoding.auth.repository.RoleRepository;
 import com.hellokoding.auth.service.OrdersService;
 import com.hellokoding.auth.service.SecurityService;
 import com.hellokoding.auth.service.UserServiceImpl;
@@ -28,6 +29,8 @@ public class UserController {
 
     @Autowired
     private SecurityService securityService;
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     private UserValidator userValidator;
@@ -47,6 +50,7 @@ public class UserController {
     private static final String ITEM_PAGE = "itemPage";
     private static final String USER_INFO = "userInfo";
     private static final String USER = "user";
+    private static final String ALL_ROLE = "allRole";
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -125,19 +129,22 @@ public class UserController {
         if (user.getId() == idUser || user.getRole().getName() == "admin") {
             model.addAttribute(USER, userService.findById(idUser));
         }
-
+        System.out.println(httpSession.getAttribute("user"));
+        model.addAttribute(ALL_ROLE, roleRepository.findAll());
         return USER_INFO;
     }
 
     @RequestMapping(value = {"/userInfo", "/admin/userInfo"}, method = RequestMethod.POST)
-    public String userInfo(Model model, @ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws Exception {
-        userValidator.validateChange(userForm, bindingResult);
+    public String userInfoChange(Model model, @ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws Exception {
 
+        if (userValidator.validateChange(userForm, bindingResult) == 0) {
+            model.addAttribute("massage", "Данные о пользователе успешно обновленны!");
+        }
         if (bindingResult.hasErrors()) {
             return USER_INFO;
         }
-
-
-        return USER_INFO;
+        userService.updateUser(userForm);
+        model.addAttribute("userForm", new User());
+        return userInfo(model, userForm.getId(), new User());
     }
 }

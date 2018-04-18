@@ -18,6 +18,7 @@
 <body>
 
 <form:form method="POST" modelAttribute="userForm" class="block3">
+    <span>${massage}<br></span>
     <spring:bind path="id">
         <form:input type="hidden" path="id" value="${user.id}"></form:input>
     </spring:bind>
@@ -40,13 +41,54 @@
     </spring:bind>
 
     <spring:bind path="password">
-            Новый пароль
-            <form:input type="text" path="password"></form:input>
-            <div class="form-group ${status.error ? 'has-error' : ''}">
+        Новый пароль
+        <form:input type="text" path="password"></form:input>
+        <div class="form-group ${status.error ? 'has-error' : ''}">
             <form:errors path="password"></form:errors>
         </div>
     </spring:bind>
-
+    <spring:bind path="email">
+        Почта
+        <form:input type="email" path="email"></form:input>
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:errors path="email"></form:errors>
+        </div>
+    </spring:bind>
+    <spring:bind path="number">
+        Номер телефона
+        <form:input type="number" path="number"></form:input>
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:errors path="number"></form:errors>
+        </div>
+    </spring:bind>
+    <spring:bind path="numberCard">
+        Номер карты
+        <form:input type="number" path="numberCard"></form:input>
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:errors path="numberCard"></form:errors>
+        </div>
+    </spring:bind>
+    <spring:bind path="address">
+        Адрес
+        <form:input type="text" path="address"></form:input>
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:errors path="address"></form:errors>
+        </div>
+    </spring:bind>
+    <c:if test="${sessionScope.get('user').role.name=='admin'}">
+        <spring:bind path="role">
+            Новый пароль
+            <select size="1" name="role">
+                <option disabled>Изменить роль</option>
+                <c:forEach var="r" items="${allRole}">
+                    <option value="${r.id}">${r.name}</option>
+                </c:forEach>
+            </select>
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:errors path="role"></form:errors>
+            </div>
+        </spring:bind>
+    </c:if>
     <button class="ui-button" type="submit">Сохранить данные</button>
 
 </form:form>
