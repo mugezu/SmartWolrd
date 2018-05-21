@@ -1,6 +1,7 @@
 package com.hellokoding.auth.service;
 
 
+import com.hellokoding.auth.model.Orders;
 import com.hellokoding.auth.model.User;
 import com.hellokoding.auth.repository.RoleRepository;
 import com.hellokoding.auth.repository.UserRepository;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.sasl.AuthenticationException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -90,5 +93,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long idUser) {
         return userRepository.findOne(idUser);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public List<User> usersFromPage(Integer page, List<User> users, Integer amount) {
+        List<User> result = new ArrayList<>();
+        try {
+            for (int i = (page - 1) * amount; i < page * amount; i++) {
+                result.add(users.get(i));
+            }
+        } finally {
+            return result;
+        }
     }
 }

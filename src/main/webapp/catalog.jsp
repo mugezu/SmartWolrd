@@ -14,7 +14,6 @@
     <script src="${contextPath}/resources/js/jquery-1.12.4.js"></script>
     <script src="${contextPath}/resources/js/jquery-ui.js"></script>
 
-
     <%@include file="header.jsp" %>
 
 </head>
@@ -28,7 +27,7 @@
         <c:forEach var="catalog" items="${listCatalog}">
             <tr>
                 <th>
-                    <img src="resources/picture/smartfone/${catalog.URL}" width="235" height="300">
+                    <img src="${contextPath}/image/${catalog.id}" width="235" height="300">
                 </th>
                 <th>
 
@@ -43,13 +42,9 @@
                     </b2>
                     <br/>
                     <sec:authorize access="hasRole('admin')">
-                        <a class="btn btn-default btn-danger" href="${contextPath}/addItem?id=${catalog.id}"> Изменить
+                        <a class="btn btn-default btn-danger" href="${contextPath}/admin/addItem?id=${catalog.id}"> Изменить
                             товар</a>
 
-                        <form action="${contextPath}/admin/deleteItemDB" method="post">
-                            <input type="hidden" name="id" value="${catalog.id}">
-                            <button type="submit" class="btn btn-default btn-danger">Удалить товар</button>
-                        </form>
                     </sec:authorize>
                 </th>
             </tr>
@@ -73,7 +68,7 @@
     </c:if>
 </table>
 
-<div class="buttonMenu">
+<div class="buttonMenu1">
     <c:set var="filter" value="${sessionScope.get('filters')}"/>
     <c:if test="${filter!=null}">
         Выбранные фильтры: ${filter.company}  ${filter.displaySize}  ${filter.displayType}  ${filter.HDD}

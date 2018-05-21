@@ -152,7 +152,9 @@
                 Выбрать картинку
             </td>
             <td>
-                <form:input type="file" path="picture" name="picture"/>
+                <form:input type="file" path="file" name="file"/>
+                <ajax execute="file" render="@all"/>
+
             </td>
         </tr>
         <tr>

@@ -15,7 +15,7 @@
     <%@include file="userMenu.jsp" %>
 </head>
 <body>
-
+<span><h2> ${massage}</h2></span>
 
 </body>
 </html>

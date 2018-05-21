@@ -2,9 +2,11 @@ package com.hellokoding.auth.web;
 
 import com.hellokoding.auth.model.Catalog;
 import com.hellokoding.auth.model.Orders;
+import com.hellokoding.auth.model.User;
 import com.hellokoding.auth.repository.StatusRepository;
 import com.hellokoding.auth.service.CatalogService;
 import com.hellokoding.auth.service.OrdersService;
+import com.hellokoding.auth.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @Controller
 public class AdminPageController {
+
     @Autowired
     OrdersService ordersService;
     @Autowired
@@ -33,19 +36,23 @@ public class AdminPageController {
     StatusRepository statusRepository;
     @Autowired
     HttpServletRequest request;
+    @Autowired
+    UserServiceImpl userService;
 
 
-    final String ADD_ITEM = "addItem";
-    final String ADMIN_PAGE = "adminPage";
+    private final String ADD_ITEM = "addItem";
+    private final String ADMIN_PAGE = "adminPage";
     private final String ADMIN_ORDERS = "adminOrders";
     private final String ITEM = "item";
     private final String ORDERS = "orders";
+    private final String USERS = "users";
     private final String LIST_STATUS = "listStatus";
     private final String AMOUNT_ALL_ITEM = "amountAllItem";
     private final String CURRENT_PAGE = "page";
     private final Integer AMOUNT_ITEM_PAGE = 5;
     private final String ITEM_PAGE = "itemPage";
     private final String ID_STATUS = "idStatus";
+    private static final String USERS_LIST = "usersList";
 
 
     @RequestMapping(value = "/admin/adminPage", method = RequestMethod.GET)
@@ -96,7 +103,7 @@ public class AdminPageController {
                 listOrders = ordersService.allOrdersWithSort();
             else {
                 listOrders = ordersService.findByStatusId(idStatus);
-                model.addAttribute(ID_STATUS,idStatus);
+                model.addAttribute(ID_STATUS, idStatus);
             }
         } else {
             listOrders.add(ordersService.findById(idOrder));
@@ -109,17 +116,16 @@ public class AdminPageController {
         return ADMIN_ORDERS;
     }
 
-    @RequestMapping(value = "/admin/orderFind", method = RequestMethod.GET)
-    public String ordersFind(Model model, @RequestParam(value = "idOrder") Long idOrder) {
-        List<Orders> listOrders = ordersService.allOrdersWithSort();
+    @RequestMapping(value = "/admin/usersList", method = RequestMethod.GET)
+    public String usersList(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
+        List<User> listUsers = userService.findAll();
 
+        model.addAttribute(USERS, userService.usersFromPage(page, listUsers, AMOUNT_ITEM_PAGE));
+        model.addAttribute(AMOUNT_ALL_ITEM, listUsers.size());
         model.addAttribute(LIST_STATUS, statusRepository.findAll());
-        model.addAttribute(ORDERS, ordersService.findById(idOrder));
-        model.addAttribute(AMOUNT_ALL_ITEM, listOrders.size());
+        model.addAttribute(CURRENT_PAGE, page);
         model.addAttribute(ITEM_PAGE, AMOUNT_ITEM_PAGE);
-        model.addAttribute(CURRENT_PAGE, 1);
-        return "redirect:" + ADMIN_ORDERS;
+
+        return USERS_LIST;
     }
-
-
 }

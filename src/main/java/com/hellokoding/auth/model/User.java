@@ -1,5 +1,6 @@
 package com.hellokoding.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -12,15 +13,22 @@ import java.util.Set;
 public class User {
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String passwordConfirm;
     private String email;
     private String number;
     private String address;
     private String numberCard;
+    @JsonIgnore
     private Role role;
-    private Set<Basket> baskets = new HashSet<Basket>();
+    @JsonIgnore
     private Set<Orders> orders = new HashSet<>();
+    @JsonIgnore
+    private Set<Rating> ratings = new HashSet<>();
+    @JsonIgnore
+    private Set<Reviews> reviews = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,12 +77,21 @@ public class User {
     }
 
     @OneToMany(mappedBy = "idBayer")
-    public Set<Basket> getBaskets() {
-        return baskets;
+    public Set<Rating> getRatings() {
+        return ratings;
     }
 
-    public void setBaskets(Set<Basket> baskets) {
-        this.baskets = baskets;
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    @OneToMany(mappedBy = "idBayer")
+    public Set<Reviews> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Reviews> reviews) {
+        this.reviews = reviews;
     }
 
     @OneToMany(mappedBy = "idBayer")

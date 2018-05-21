@@ -13,7 +13,7 @@ import java.util.Set;
 public class Orders {
     private Long id;
     private User idBayer;
-    private Integer price;
+    private Integer price = 0;
     private Date date;
     private Status status;
     private Set<SubOrders> subOrders = new HashSet<>();
@@ -30,7 +30,6 @@ public class Orders {
     }
 
 
-
     @ManyToOne
     @JoinColumn(name = "id_bayer")
     public User getIdBayer() {
@@ -42,14 +41,13 @@ public class Orders {
     }
 
 
-
-
+    @Column(name="price", columnDefinition="Decimal(10,2) default '0'")
     public Integer getPrice() {
         return price;
     }
 
     public void setPrice(Integer price) {
-        this.price = price;
+        this.price = price == null ? 0 : price;
     }
 
     public Date getDate() {
@@ -64,7 +62,7 @@ public class Orders {
     @ManyToOne
     @JoinColumn(name = "status")
     public Status getStatus() {
-            return status;
+        return status;
     }
 
     public void setStatus(Status status) {

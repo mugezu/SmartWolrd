@@ -2,18 +2,13 @@ package com.hellokoding.auth.service;
 
 import com.hellokoding.auth.Other.Filters;
 import com.hellokoding.auth.model.Catalog;
-import com.hellokoding.auth.repository.BasketRepository;
 import com.hellokoding.auth.repository.CatalogRepository;
 import com.hellokoding.auth.repository.CatalogSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,22 +19,20 @@ import java.util.List;
 public class CatalogService {
     @Autowired
     private CatalogRepository catalogRepository;
-    @Autowired
-    private BasketRepository basketRepository;
+
 
     public Catalog findItem(Long id) {
         return catalogRepository.findAllById(id);
     }
 
     public void addItem(Catalog item) throws IOException {
-        MultipartFile file = item.getPicture();
-        if (!file.isEmpty()) {
-            byte[] bytes = file.getBytes();
-            BufferedOutputStream stream =
-                    new BufferedOutputStream(new FileOutputStream(new File("src\\main\\webapp\\resources\\picture\\smartfone\\" + item.getURL())));
-            stream.write(bytes);
-            stream.close();
-        }
+        InputStream is = item.getFile().getInputStream();
+
+        int i = is.available();
+        byte[] b = new byte[i];
+        is.read(b);
+        item.setPicture(b);
+
         catalogRepository.saveAndFlush(item);
     }
 

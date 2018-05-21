@@ -2,16 +2,12 @@ package com.hellokoding.auth.web;
 
 import com.hellokoding.auth.Other.Filters;
 import com.hellokoding.auth.model.Catalog;
-import com.hellokoding.auth.model.User;
 import com.hellokoding.auth.repository.CatalogRepository;
 import com.hellokoding.auth.service.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -36,6 +32,12 @@ public class CatalogController {
     private final Integer AMOUNT_ITEM_PAGE = 2;
     private final String ITEM_PAGE = "itemPage";
     private Filters f = new Filters();
+
+    @RequestMapping("/image/{id}")
+    @ResponseBody
+    public byte[] getImage(@PathVariable Long id) {
+       return catalogService.findItem(id).getPicture();
+    }
 
     @RequestMapping(value = "/catalog", method = RequestMethod.GET)
     public String   showCatalog(@ModelAttribute("filters") Filters filters, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {

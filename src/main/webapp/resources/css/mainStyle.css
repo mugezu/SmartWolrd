@@ -4,16 +4,27 @@ TABLE {
 
 .menu {
     float: left;
-    width: 320px;
+    width: 25%;
     padding: 5px;
     text-align: left;
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 1.2) 0px 1px 3px;
 }
+.menu a{
+    width: 100%;
+}
+.menu p{
+    word-break: break-all;
+}
 
 .table1 {
     width: 72%;
     float: right;
+
+}
+
+.table1 img {
+    object-fit: contain;
 }
 
 .table2 {
@@ -22,12 +33,26 @@ TABLE {
 
     float: left;
 }
+
 .table3 {
     width: 72%; /* Ширина таблицы */
 }
 
+.buttonMenu1 {
+    width: 28%;
+}
+
 .buttonMenu {
     width: 310px;
+}
+
+.table1 th {
+    overflow: hidden;
+}
+
+.table1 img:hover {
+    transition: transform 0.5s;
+    transform: scale(1.5);
 }
 
 .range-filter {
@@ -131,12 +156,22 @@ TABLE {
     align-content: center;
     scroll-behavior: smooth;
 }
+
 .block5 {
     width: 35%;
     height: 10%;
     float: left;
     align-content: center;
     scroll-behavior: smooth;
+}
+
+.block6 {
+    width: 72%;
+    height: 10%;
+    background: #a6e1ec;
+    border: solid 1px black;
+    float: right;
+
 }
 
 body {
@@ -152,4 +187,62 @@ body {
     margin: 0 auto;
     position: relative;
     height: auto;
+}
+
+#userform {
+    margin-left: 380px;
+    width: 500px;
+
+}
+
+#userform input, #userform select {
+    float: right;
+    width: 45%;
+    margin-right: 20%;
+}
+
+#userform span {
+    display: block;
+    line-height: 25px;
+}
+
+#slider-range {
+    float: none;
+}
+
+.pictureItem {
+    width: 20%;
+    float: left;
+}
+
+.pictureItem img{
+    object-fit: contain;
+}
+
+.infoItem {
+    padding-left: 20px;
+    width: 40%;
+    float: left;
+}
+
+.comments{
+    padding-left: 20px;
+    width: 40%;
+    height: 100%;
+    float: right;
+}
+
+.comments h3{
+    margin-bottom: 60px;
+}
+
+.comment{
+
+}
+
+.sendComment{
+    width:50%;
+
+}
+.sendComment p{
 }

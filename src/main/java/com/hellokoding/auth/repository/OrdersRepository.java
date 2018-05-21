@@ -1,8 +1,8 @@
 package com.hellokoding.auth.repository;
 
 import com.hellokoding.auth.model.Orders;
-import com.hellokoding.auth.model.User;
 import com.hellokoding.auth.model.Status;
+import com.hellokoding.auth.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,6 +22,10 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     @Query("SELECT lo FROM Orders lo where lo.idBayer=?1 order by lo.status.id")
     List<Orders> findAllByIdSort(User user);
+
+    @Query("SELECT lo FROM Orders lo where lo.idBayer=?1 and lo.status=?2")
+    Orders findBasket(User user, Status status);
+
 
     List<Orders> findByStatus(Status status);
 

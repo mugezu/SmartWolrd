@@ -2,8 +2,8 @@ package com.hellokoding.auth.web;
 
 import com.hellokoding.auth.model.Catalog;
 import com.hellokoding.auth.model.User;
-import com.hellokoding.auth.service.BasketService;
 import com.hellokoding.auth.service.CatalogService;
+import com.hellokoding.auth.service.OrdersService;
 import com.hellokoding.auth.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ItemController {
 
+    @Autowired
+    OrdersService ordersService;
 
     @Autowired
     UserServiceImpl userService;
@@ -27,8 +29,7 @@ public class ItemController {
     HttpServletRequest request;
     @Autowired
     CatalogService catalogService;
-    @Autowired
-    BasketService basketService;
+
 
 
     private final String ITEM = "item";
@@ -40,13 +41,13 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/buyItem", method = RequestMethod.GET)
-    public String buyItem(Model model, @RequestParam(value = "id", required = false) Long id, @RequestParam(value = "amount", required = false) Integer amount) throws Exception {
+    public String buyItem(Model model, @RequestParam(value = "id", required = false) Long id, @RequestParam(value = "amount", required = false,defaultValue = "1") Integer amount) throws Exception {
         Catalog item = catalogService.findItem(id);
         model.addAttribute(ITEM, item);
 
         User user = userService.getCurrentUser();
 
-        basketService.addItemFromBasket(user, id, amount);
+        ordersService.addItemFromBasket(user, id, amount);
         return "redirect:" + request.getHeader("referer");
     }
 
@@ -55,7 +56,7 @@ public class ItemController {
 
         Catalog item = catalogService.findItem(id);
         User user = userService.getCurrentUser();
-        basketService.deleteItemFromBasketUser(item, user);
+        ordersService.deleteItemFromBasketUser(item, user);
 
         return "redirect:" + request.getHeader("referer");
     }

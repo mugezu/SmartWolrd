@@ -21,7 +21,6 @@
     <link href="${contextPath}/resources/css/mainStyle.css" rel="stylesheet">
     <link rel="stylesheet" href="${contextPath}/resources/css/jquery-ui.css">
 
-
 </head>
 <body>
 <table>

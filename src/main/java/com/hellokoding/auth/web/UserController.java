@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class UserController {
     private static final Integer AMOUNT_ITEM_PAGE = 5;
     private static final String ITEM_PAGE = "itemPage";
     private static final String USER_INFO = "userInfo";
-    private static final String USER = "user";
+    private static final String USER = "userForm";
     private static final String ALL_ROLE = "allRole";
 
 
@@ -79,8 +78,6 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) throws Exception {
-
-
         if (error != null)
             model.addAttribute("error", "Неверное имя пользователя или пароль");
 
@@ -88,17 +85,6 @@ public class UserController {
             httpSession.removeAttribute("user");
             model.addAttribute("message", "Вы успешно вышли из системы");
         }
-        if (error == null && logout == null) {
-            User user = null;
-            try {
-                user = userService.getCurrentUser();
-                httpSession.setAttribute("user", user);
-            } catch (AuthenticationException e) {
-
-            }
-
-        }
-
         return "login";
     }
 
@@ -125,12 +111,17 @@ public class UserController {
 
     @RequestMapping(value = {"/userInfo", "/admin/userInfo"}, method = RequestMethod.GET)
     public String userInfo(Model model, @RequestParam(value = "idUser", required = false) Long idUser, @ModelAttribute("userForm") User userForm) throws Exception {
+        User currUser=userService.getCurrentUser();
         User user;
         if (idUser == null) {
-            user = userService.getCurrentUser();
-        } else {
+            user = currUser;
+        } else if(currUser.getRole().getName().equals("admin") || currUser.getRole().getName().equals("manager")) {
             user = userService.findById(idUser);
+        }else{
+            model.addAttribute("massage","Извините, но ваших прав доступа не достаточно");
+            return userPage(model);
         }
+        user.setPassword("");
         model.addAttribute(USER, user);
         model.addAttribute(ALL_ROLE, roleRepository.findAll());
         return USER_INFO;
@@ -138,15 +129,14 @@ public class UserController {
 
     @RequestMapping(value = {"/userInfo", "/admin/userInfo"}, method = RequestMethod.POST)
     public String userInfoChange(Model model, @ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws Exception {
-
-        if (userValidator.validateChange(userForm, bindingResult) == 0) {
-            model.addAttribute("massage", "Данные о пользователе успешно обновленны!");
-        }
+        int countErrors = userValidator.validateChange(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return USER_INFO;
         }
+        if (countErrors == 0) {
+            model.addAttribute("massage", "Данные о пользователе успешно обновленны!");
+        }
         userService.updateUser(userForm);
-        model.addAttribute("userForm", new User());
-        return userInfo(model, userForm.getId(), new User());
+        return userInfo(model, userForm.getId(), userForm);
     }
 }

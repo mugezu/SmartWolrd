@@ -1,5 +1,6 @@
 package com.hellokoding.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -29,10 +30,40 @@ public class Catalog {
     private String URL;
     private String OS;
     private String screenResolution;
-    private MultipartFile picture;
-    private Set<Basket> Baskets = new HashSet<>();
+    @JsonIgnore
+    private MultipartFile file;
+    @JsonIgnore
+    private byte[] picture;
+    @JsonIgnore
+    private Set<Reviews> reviews = new HashSet<>();
+    @JsonIgnore
     private Set<SubOrders> orders = new HashSet<>();
+    @JsonIgnore
+    private Set<Rating> ratings = new HashSet<>();
 
+
+    @OneToMany(mappedBy = "idItem")
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    @OneToMany(mappedBy = "idItem")
+    public Set<Reviews> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Reviews> reviews) {
+        this.reviews = reviews;
+    }
+
+    @OneToMany(mappedBy = "idItem")
+    public Set<SubOrders> getOrders() {
+        return orders;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -156,19 +187,6 @@ public class Catalog {
         this.URL = URL;
     }
 
-    @OneToMany(mappedBy = "idItem")
-    public Set<Basket> getBaskets() {
-        return Baskets;
-    }
-
-    public void setBaskets(Set<Basket> baskets) {
-        Baskets = baskets;
-    }
-
-    @OneToMany(mappedBy = "idItem")
-    public Set<SubOrders> getOrders() {
-        return orders;
-    }
 
     public void setOrders(Set<SubOrders> orders) {
         this.orders = orders;
@@ -190,12 +208,22 @@ public class Catalog {
         this.screenResolution = screenResolution;
     }
 
-    @Transient
-    public MultipartFile getPicture() {
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(MultipartFile picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
+    }
+
+    @Transient
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }

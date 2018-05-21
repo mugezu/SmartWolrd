@@ -4,6 +4,7 @@ import com.hellokoding.auth.repository.CatalogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,10 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/catalog")
 public class JsonControllerFromCatalog {
+
+
     @Autowired
     private CatalogRepository catalogRepository;
 
     @RequestMapping(value = "/company")
+    @ResponseBody
     public Iterable<String> getCompany(Model model) {
         List<String> list = catalogRepository.findDistinctByCompany();
         model.addAttribute("company", list);
